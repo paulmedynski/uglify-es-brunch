@@ -1,2 +1,2 @@
 # uglify-es-brunch
-An uglify-es plugin for brunch
+An uglify-es plugin for Brunch.
