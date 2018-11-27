@@ -7,7 +7,7 @@
 
 const debug = require('debug')('brunch:uglify-es');
 
-// Use the real TSLint library, or our mock library if we're testing.
+// Use the real uglify-es library, or our mock library if we're testing.
 let uglify;
 if (! process.env.hasOwnProperty('TEST'))
 {
@@ -16,7 +16,7 @@ if (! process.env.hasOwnProperty('TEST'))
 else
 {
   debug('Using mock uglify-es library');
-  uglify = require('./test/MockUglify');
+  uglify = require('./test/MockUglifyEs');
 }
 
 class Uglifier
@@ -35,7 +35,7 @@ class Uglifier
   //
   constructor(brunchCfg)
   {
-    // Find out plugin's options within the global Brunch plugin
+    // Find our plugin's options within the global Brunch plugin
     // configuration, or use an empty config.
     //
     // The config supplied by Brunch is expected to be whatever options are
@@ -70,7 +70,9 @@ class Uglifier
         {
           filename: brunchFile.path,
           // Brunch passes in a source-map SourceMapGenerator object, and
-          // uglify-es wants the equivalent JSON.
+          // uglify-es wants a plain object, which is obtained via the
+          // confusingly-named toJSON() function (which definitely doesn't
+          // return JSON).
           content: brunchFile.map.toJSON()
           // We omit the 'url' field here to inhibit uglify-es from appending
           // the '//# sourceMappingUrl=foo' line to the end of the optimized
@@ -85,48 +87,30 @@ class Uglifier
     const optimized = uglify.minify(brunchFile.data, this.cfg);
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // Check for any errors.
+    // Check for errors.
 
-    let error = undefined;
-
-    // Were separate warnings specified?
-    if (! this.cfg.hasOwnProperty('warnings')
-        || (typeof this.cfg.warnings === 'boolean'
-            && this.cfg.warnings === false))
+    // Errors are always reported without any other results.  The presence of
+    // the error key in the optimized result object indicates that an error
+    // occurred, and no other keys will be present in the result.
+    if (optimized.hasOwnProperty('error'))
     {
-      // No, so just look for errors.
-      if (optimized.error !== undefined)
-      {
-        error = optimized.error;
-      }
-    }
-    // Warnings and errors are separate, so combine them.
-    else
-    {
-      let errorStr = '';
-      
-      if (optimized.error !== undefined)
-      {
-        errorStr = `Errors: ${optimized.error}`;
-      }
-
-      if (optimized.warnings !== undefined)
-      {
-        if (errorStr.length !== 0)
-        {
-          errorStr += '\n';
-        }
-        errorStr += `Warnings: ${optimized.warnings}`;
-      }
-
-      error = new Error(errorStr);
+      // Reject with the error.  It is already an Error instance.
+      return Promise.reject(optimized.error);
     }
 
-    // Did we find any errors/warnings?
-    if (error !== undefined)
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // Check for warnings.
+
+    // Did the caller ask for warnings?  If so, then we treat them like
+    // errors.
+    if (this.cfg.hasOwnProperty('warnings')
+        && this.cfg.warnings !== false
+        && optimized.hasOwnProperty('warnings'))
     {
-      // Reject with the error.
-      return Promise.reject(error);
+      // The warnings are just an array of strings, so we concatenate them
+      // into a single string and put that into an Error.
+      return Promise.reject(
+        new Error('Warnings:\n' + optimized.warnings.join('\n')));
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -74,7 +74,6 @@ module.exports =
       config:
       {
         extends: 'tslint:recommended',
-        notafield: false,
         rules:
         {
           'max-classes-per-file': false,
@@ -98,7 +97,7 @@ module.exports =
       // Use the ES3 target if you want compilation to fail.  The test app
       // uses some features only found in later version of JavaScript.
       //target: 'ES3',
-      target: 'ES2015',
+      target: 'ES2017',
       strict: true,
       pretty: true,
       sourceMap: true,
