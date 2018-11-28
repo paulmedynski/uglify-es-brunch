@@ -16,11 +16,11 @@ Add an `uglify-es` object to your Brunch config's `plugins` object:
 }
 ```
 
-You may specify any options that are accepted by uglify-es as described
+You may specify any options that are accepted by `uglify-es` as described
 in the API Reference section [here](https://www.npmjs.com/package/uglify-es).
 This plugin doesn't parse or normalize any options - they are passed as-is to
-uglify-es.  The options are held by reference, so they may be modified by
-uglify-es, for example the nameCache option.
+`uglify-es`.  The options are held by reference, so they may be modified by
+`uglify-es`, for example the `nameCache` option.
 
 Sample config:
 
