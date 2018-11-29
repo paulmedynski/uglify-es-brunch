@@ -1,12 +1,10 @@
 // ***************************************************************************
 // The main file of our test app.
 
-// Import some types from our sibling files.
+// Import some types from our sibling files to see them minified together into the packaged file.
 import Waiter, {RejectFunc, ResolveFunc} from './Waiter';
 
-// Create a Jasmine test suite.  This tests that the @types/jasmine
-// declarations cna be found and loaded by the TypeScript compiler when run
-// via typescript-brunch.
+// Create a Jasmine test suite to show bare functions being minified.
 describe('test', () =>
 {
   it('wait', async () =>

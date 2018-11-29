@@ -46,7 +46,7 @@ module.exports =
       output:
       {
         ecma: 8,
-        preamble: 'This line appears at the top of the optimized output\n'
+        preamble: '// This line appears at the top of the optimized output\n'
       },
       sourceMap:
       {
@@ -102,27 +102,6 @@ module.exports =
       pretty: true,
       sourceMap: true,
       traceResolution: false
-    }
-  },
-
-  overrides:
-  {
-    production:
-    {
-      // Enable source maps to test that part of the uglify-es plugin.
-      sourceMaps: true,
-  
-      plugins:
-      {
-        off:
-        [
-          // Some of the app's brunch plugins don't work with really old
-          // versions of typescript, so we disable them here as necessary.
-          //'tslint-brunch',
-          //'uglify-es-brunch',
-          'uglify-js-brunch'
-        ]
-      }
     }
   }
 };

@@ -15,9 +15,6 @@ export default class Waiter
 
   // Create an return a Promise, whose reject() and resolve() methods are
   // wired up to our members.
-  //
-  // The Promise type isn't known to TypeScript unless the target is at least
-  // ES2015, or unless a particular --lib option was supplied that defines it.
   public wait(): Promise<string>
   {
     return new Promise<string>(
@@ -32,6 +29,12 @@ export default class Waiter
   public done(result: string): void
   {
     this.resolve(result);
+
+    // This should be removed in the minfied code.
+    if (DEBUG)
+    {
+      console.log('Dead code!');
+    }
   }
 
   // Reject our promise with the given error.
