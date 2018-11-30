@@ -1,6 +1,12 @@
 # uglify-es-brunch
 An uglify-es plugin for Brunch.
 
+## Installation
+
+`npm install -D @paulmedynski/uglify-es-brunch`
+
+The `uglify-es` and `brunch` modules are specified as peer dependencies, so you may install whatever versions of those you wish.
+
 ## Configuration
 Add an `uglify-es` object to your Brunch config's `plugins` object:
 
