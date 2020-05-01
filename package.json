@@ -1,6 +1,6 @@
 {
   "name": "@paulmedynski/uglify-es-brunch",
-  "version": "0.9.1",
+  "version": "0.9.3",
   "description": "Adds uglify-es support to Brunch.",
   "author": {
     "name": "Paul Medynski",
