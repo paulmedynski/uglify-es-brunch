@@ -1,6 +1,6 @@
 {
-  "name": "uglify-es-brunch",
-  "version": "0.9.0",
+  "name": "@paulmedynski/uglify-es-brunch",
+  "version": "0.9.1",
   "description": "Adds uglify-es support to Brunch.",
   "author": {
     "name": "Paul Medynski",
@@ -26,12 +26,12 @@
   ],
   "devDependencies": {
     "debug": "^4.1.0",
-    "deepcopy": "^1.0.0",
+    "deepcopy": "^2.0.0",
     "jasmine": "^3.3.0",
     "uglify-es": "^3.3.9"
   },
   "peerDependencies": {
-    "brunch": "^2",
+    "brunch": "^3",
     "uglify-es": "^3"
   }
 }
